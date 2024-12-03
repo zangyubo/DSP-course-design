@@ -1,25 +1,49 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	// 创建一个默认的 Gin 路由引擎
 	r := gin.Default()
 
-	// 定义一个 GET 路由，接收 name 参数
+	// 添加 CORS 中间件（可选）
+	r.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		c.Next()
+	})
+
+	// GET 路由
 	r.GET("/hello", func(c *gin.Context) {
-		// 从查询参数中获取 name 参数
 		name := c.Query("name")
 		if name == "" {
-			name = "world" // 如果 name 参数为空，默认为 "world"
+			name = "world"
 		}
-
-		// 返回 JSON 响应
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Hello, " + name,
+		})
+	})
+
+	// POST 路由
+	r.POST("/hello", func(c *gin.Context) {
+		var request struct {
+			Name string `json:"name"`
+		}
+		if err := c.ShouldBindJSON(&request); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Hello, " + request.Name,
 		})
 	})
 
