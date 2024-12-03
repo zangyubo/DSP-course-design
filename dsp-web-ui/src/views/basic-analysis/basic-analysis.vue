@@ -133,15 +133,15 @@ const handleAudio2Upload = (event: Event) => {
 }
 
 // ========================================================
+import { yAxis1F } from './data'
 
-import { xAxis1 } from './data'
 import frequencyChart1 from './components/frequency-chart-1.vue'
 import frequencyChart2 from './components/frequency-chart-2.vue'
 import timeChart1 from './components/time-chart-1.vue'
 import timeChart2 from './components/time-chart-2.vue'
 
 const test = () => {
-  xAxis1.value.push(1)
+  yAxis1F.value[1] += 100
 }
 </script>
 

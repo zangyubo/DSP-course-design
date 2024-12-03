@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { exampleLable } from '../data'
+import { exampleLable, xAxis1F, yAxis1F } from '../data'
 
 const option = ref({
   graphic: [exampleLable],
@@ -20,7 +20,7 @@ const option = ref({
   },
   xAxis: {
     type: 'category',
-    data: ['0Hz', '10Hz', '20Hz', '30Hz', '40Hz', '50Hz', '60Hz', '70Hz', '80Hz', '90Hz'], // Frequency bins
+    data: xAxis1F, // Frequency bins
     name: 'F(Hz)',
   },
   yAxis: {
@@ -34,7 +34,7 @@ const option = ref({
     {
       name: 'Amplitude Spectrum',
       type: 'bar',
-      data: [10, 20, 35, 50, 70, 90, 110, 150, 180, 200], // Example amplitude data
+      data: yAxis1F, // Example amplitude data
       barWidth: 1, // Set bar width to a very small value
       itemStyle: {
         color: '#00f', // Color of the bars (lines)
