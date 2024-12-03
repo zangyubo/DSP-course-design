@@ -18,8 +18,8 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/addnosie',
-      name: 'addnosie',
+      path: '/add-noise',
+      name: 'add-noise',
       component: () => import('../views/addnosie/add-noise.vue'),
     },
     {
