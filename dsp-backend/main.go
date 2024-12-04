@@ -1,3 +1,5 @@
+// 经过实测，运行 matlab 程序所需时间太长，实际使用 python 语言进行信号处理
+
 package main
 
 import (
