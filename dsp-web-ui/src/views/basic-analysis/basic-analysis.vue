@@ -78,7 +78,7 @@
           ref="fileInput2"
           style="display: none"
         />
-        <a-button type="primary">生成频谱图 2</a-button>
+        <a-button type="primary" @click="upload">生成频谱图 2</a-button>
         <div style="width: 50%; height: 40px">
           <audio
             v-if="audio2"
@@ -132,6 +132,26 @@ const handleAudio2Upload = (event: Event) => {
   }
 }
 
+// ========================================================
+// api 上传音乐 1
+import { uploadFileRequest } from '../../api/basicCharts'
+
+const upload = async () => {
+  const file = fileInput2.value?.files?.[0] // 获取音频 2 的文件
+  if (!file) {
+    console.error('请先选择音频文件 2')
+    return
+  }
+
+  try {
+    // 调用上传接口
+    const response = await uploadFileRequest({ file })
+    console.log('音频 2 上传成功:', response)
+    // 如果需要处理上传后的响应数据，可以在这里继续操作
+  } catch (error) {
+    console.error('音频 2 上传失败:', error)
+  }
+}
 // ========================================================
 import { yAxis1F } from './data'
 

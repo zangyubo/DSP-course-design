@@ -1,54 +1,27 @@
-// 经过实测，运行 matlab 程序所需时间太长，实际使用 python 语言进行信号处理
-
 package main
 
 import (
-	"net/http"
+	"dspBackend/routes"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// 创建一个默认的 Gin 路由引擎
+	// 创建一个默认的 Gin 路由
 	r := gin.Default()
 
-	// 添加 CORS 中间件（可选）
-	r.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-		c.Next()
-	})
+	// 启用 CORS 中间件，允许所有域名进行访问
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:5174"},                   // 允许你的前端地址
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}, // 允许的 HTTP 方法
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"}, // 允许的请求头
+		AllowCredentials: true,                                                // 允许携带凭证（如 cookies）
+	}))
 
-	// GET 路由
-	r.GET("/hello", func(c *gin.Context) {
-		name := c.Query("name")
-		if name == "" {
-			name = "world"
-		}
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, " + name,
-		})
-	})
+	// 注册路由
+	routes.RegisterUploadRoutes(r)
 
-	// POST 路由
-	r.POST("/hello", func(c *gin.Context) {
-		var request struct {
-			Name string `json:"name"`
-		}
-		if err := c.ShouldBindJSON(&request); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, " + request.Name,
-		})
-	})
-
-	// 启动 HTTP 服务，监听 8080 端口
-	r.Run(":8080")
+	// 启动服务器
+	r.Run(":8080") // 监听 8080 端口
 }
