@@ -1,16 +1,15 @@
 <template>
-  <a-button type="primary" @click="goToHome">Primary Button</a-button>
+  <div style="height: 100%; width: 100%">
+    <div style="height: 50%; width: 100%">
+      <dealNoise />
+    </div>
+    <div style="height: 50%; width: 100%">
+      <dealFilliter />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { yAxis1F } from '../basic-analysis/data'
-
-const router = useRouter()
-
-// Function to navigate to /home
-const goToHome = () => {
-  yAxis1F.value[1] = 500
-  router.push('/basic-analysis')
-}
+import dealFilliter from './components/deal-filliter.vue'
+import dealNoise from './components/deal-noise.vue'
 </script>
