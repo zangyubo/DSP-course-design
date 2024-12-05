@@ -1,7 +1,5 @@
 import axios from 'axios'
-// import npyjs from 'npyjs'
-
-// 定义提交数据的接口
+import npyjs from 'npyjs'
 
 // 定义接收数据的接口
 export interface Receive {
@@ -29,6 +27,21 @@ export function sendGetRequest(): Promise<void> {
 
       // 释放临时的 URL 对象
       URL.revokeObjectURL(fileUrl)
+
+      // 读取下载的 .npy 文件并打印到控制台
+      const reader = new FileReader()
+      reader.onload = () => {
+        const arrayBuffer = reader.result as ArrayBuffer
+
+        // 使用 npyjs 来解析 ArrayBuffer
+        const n = new npyjs()
+        n.load(arrayBuffer).then((res) => {
+          console.log(res)
+        })
+      }
+
+      // 将 Blob 转换为 ArrayBuffer 进行处理
+      reader.readAsArrayBuffer(fileBlob)
     })
     .catch((error) => {
       console.error('Error fetching file:', error)
