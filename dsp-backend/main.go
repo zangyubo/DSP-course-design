@@ -1,8 +1,6 @@
 package main
 
 import (
-	"dspBackend/routes"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +18,7 @@ func main() {
 	}))
 
 	// 注册路由
-	routes.RegisterUploadRoutes(r)
+	// routes.RegisterUploadRoutes(r)
 
 	// 启动服务器
 	r.Run(":8080") // 监听 8080 端口
