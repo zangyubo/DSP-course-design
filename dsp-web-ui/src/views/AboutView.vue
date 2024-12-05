@@ -1,8 +1,6 @@
 <template>
-  <div class="about">
-    <h1>
-      <button @click="test">test</button>
-    </h1>
+  <div style="align-items: center; justify-content: center; width: 100%; height: 100%">
+    <button @click="test">test</button>
   </div>
 </template>
 
@@ -21,12 +19,4 @@ const test = async () => {
 }
 </script>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<style></style>
