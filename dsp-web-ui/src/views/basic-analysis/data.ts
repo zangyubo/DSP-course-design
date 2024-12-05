@@ -1,5 +1,14 @@
 import { ref } from 'vue'
 
+export const audio1 = ref<string | null>(null)
+export const audio2 = ref<string | null>(null)
+
+export const fileInput1 = ref<HTMLInputElement | null>(null)
+export const fileInput2 = ref<HTMLInputElement | null>(null)
+
+export const disableButton1 = ref(false)
+export const disableButton2 = ref(false)
+
 export const xAxis1F = ref<number[]>([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 export const yAxis1F = ref<number[]>([10, 20, 35, 50, 70, 90, 110, 150, 180, 200])
 

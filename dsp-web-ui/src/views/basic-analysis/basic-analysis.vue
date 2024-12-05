@@ -27,7 +27,7 @@
           margin-top: 10px;
         "
       >
-        <a-button @click="triggerFileInput1">上传音频文件</a-button>
+        <a-button @click="triggerFileInput1" :disabled="disableButton1">上传音频文件</a-button>
         <input
           type="file"
           id="audio1"
@@ -36,14 +36,14 @@
           ref="fileInput1"
           style="display: none"
         />
-        <a-button type="primary" @click="test">生成频谱图 1</a-button>
+        <a-button type="primary" @click="test" :disabled="disableButton1">生成频谱图 1</a-button>
         <div style="width: 50%; height: 40px">
           <audio
             v-if="audio1"
             controls
             :src="audio1"
             ref="audioPlayer1"
-            style="height: 40px; width: 400px"
+            style="height: 35px; width: 300px"
           ></audio>
         </div>
       </div>
@@ -69,7 +69,7 @@
           margin-top: 10px;
         "
       >
-        <a-button @click="triggerFileInput2">上传音频文件</a-button>
+        <a-button @click="triggerFileInput2" :disabled="disableButton2">上传音频文件</a-button>
         <input
           type="file"
           id="audio2"
@@ -78,14 +78,14 @@
           ref="fileInput2"
           style="display: none"
         />
-        <a-button type="primary" @click="upload">生成频谱图 2</a-button>
+        <a-button type="primary" @click="upload" :disabled="disableButton2">生成频谱图 2</a-button>
         <div style="width: 50%; height: 40px">
           <audio
             v-if="audio2"
             controls
             :src="audio2"
             ref="audioPlayer2"
-            style="height: 40px; width: 400px"
+            style="height: 35px; width: 300px"
           ></audio>
         </div>
       </div>
@@ -94,15 +94,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { disableButton1, disableButton2 } from './data'
 
-// 创建响应式变量来存储音频文件的 URL
-const audio1 = ref<string | null>(null)
-const audio2 = ref<string | null>(null)
-
-// 获取文件输入框的引用
-const fileInput1 = ref<HTMLInputElement | null>(null)
-const fileInput2 = ref<HTMLInputElement | null>(null)
+// 创建响应式变量来存储音频文件的 URL, 获取文件输入框的引用
+import { audio1, audio2, fileInput1, fileInput2 } from './data'
 
 // 触发音频 1 文件选择框
 const triggerFileInput1 = () => {
@@ -143,9 +138,11 @@ const upload = async () => {
     return
   }
 
+  const test = { file: file, channel: 2 }
+
   try {
     // 调用上传接口
-    const response = await uploadFileRequest({ file })
+    const response = await uploadFileRequest(test)
     console.log('音频 2 上传成功:', response)
     // 如果需要处理上传后的响应数据，可以在这里继续操作
   } catch (error) {
