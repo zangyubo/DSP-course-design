@@ -7,13 +7,14 @@
 </template>
 
 <script setup lang="ts">
-import { sendPostRequest } from '../api/helloWorld'
+import { sendGetRequest } from '../api/helloWorld'
 
 const test = async () => {
   try {
     // 等待请求完成并接收服务端响应
-    const response = await sendPostRequest({ name: '111' })
-    console.log(response.message) // 输出服务端返回的消息
+    const response = await sendGetRequest()
+
+    console.log('Received response:', response)
   } catch (error) {
     console.error('Error:', error) // 捕获并处理错误
   }
