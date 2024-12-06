@@ -26,8 +26,8 @@ func main() {
 
 	// 注册路由
 	// routes.RegisterUploadRoutes(r)
-	r.GET("/testGetData", routes.TestGetData)
-	r.POST("/basicCharts", routes.UploadMP3)
+	r.GET("/basicChartSendChartData", routes.SendChartData)
+	r.POST("/basicChartReceiveMP3", routes.BasicChartReceiveMP3)
 
 	// 启动服务器
 	r.Run(":8080") // 监听 8080 端口
