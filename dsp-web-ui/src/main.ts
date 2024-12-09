@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import globalComponents from '@/components';
+import VChart from 'vue-echarts';
 import router from './router';
 import store from './store';
 import i18n from './locale';
@@ -14,7 +15,11 @@ import App from './App.vue';
 import '@/assets/style/global.less';
 import '@/api/interceptor';
 
+import 'echarts';
+
 const app = createApp(App);
+
+app.component('VueChart', VChart);
 
 app.use(ArcoVue, {});
 app.use(ArcoVueIcon);

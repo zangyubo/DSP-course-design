@@ -34,7 +34,8 @@
     "@vueuse/core": "^9.3.0",
     "axios": "^0.24.0",
     "dayjs": "^1.11.5",
-    "echarts": "^5.4.0",
+    "echarts": "^5.5.1",
+    "echarts-gl": "^2.0.9",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
@@ -42,7 +43,7 @@
     "query-string": "^8.0.3",
     "sortablejs": "^1.15.0",
     "vue": "^3.2.40",
-    "vue-echarts": "^6.2.3",
+    "vue-echarts": "^6.7.3",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.14"
   },
