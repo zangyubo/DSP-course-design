@@ -10,7 +10,7 @@
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
         >
-          DPS
+          DSP
         </a-typography-title>
         <icon-menu-fold
           v-if="!topMenu && appStore.device === 'mobile'"
@@ -23,7 +23,7 @@
       <Menu v-if="topMenu" />
     </div>
     <ul class="right-side">
-      <li>
+      <!-- <li>
         <a-tooltip :content="$t('settings.search')">
           <a-button class="nav-btn" type="outline" :shape="'circle'">
             <template #icon>
@@ -31,8 +31,8 @@
             </template>
           </a-button>
         </a-tooltip>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a-tooltip :content="$t('settings.language')">
           <a-button
             class="nav-btn"
@@ -81,8 +81,8 @@
             </template>
           </a-button>
         </a-tooltip>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a-tooltip :content="$t('settings.navbar.alerts')">
           <div class="message-box-trigger">
             <a-badge :count="9" dot>
@@ -108,7 +108,7 @@
             <message-box />
           </template>
         </a-popover>
-      </li>
+      </li> -->
       <li>
         <a-tooltip
           :content="
@@ -131,6 +131,20 @@
         </a-tooltip>
       </li>
       <li>
+        <a-tooltip content="登出">
+          <a-button
+            class="nav-btn"
+            type="outline"
+            :shape="'circle'"
+            @click="logout"
+          >
+            <template #icon>
+              <icon-export />
+            </template>
+          </a-button>
+        </a-tooltip>
+      </li>
+      <!-- <li>
         <a-tooltip :content="$t('settings.title')">
           <a-button
             class="nav-btn"
@@ -143,8 +157,8 @@
             </template>
           </a-button>
         </a-tooltip>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a-dropdown trigger="click">
           <a-avatar
             :size="32"
@@ -187,79 +201,99 @@
             </a-doption>
           </template>
         </a-dropdown>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, inject } from 'vue';
-  import { Message } from '@arco-design/web-vue';
-  import { useDark, useToggle, useFullscreen } from '@vueuse/core';
-  import { useAppStore, useUserStore } from '@/store';
-  import { LOCALE_OPTIONS } from '@/locale';
-  import useLocale from '@/hooks/locale';
-  import useUser from '@/hooks/user';
+  import { useRouter } from 'vue-router';
+
+  import {
+    computed,
+    // ref,
+    inject,
+  } from 'vue';
+  // import { Message } from '@arco-design/web-vue';
+  import {
+    // useDark, useToggle,
+    useFullscreen,
+  } from '@vueuse/core';
+  import {
+    useAppStore,
+    // useUserStore
+  } from '@/store';
+  // import { LOCALE_OPTIONS } from '@/locale';
+  // import useLocale from '@/hooks/locale';
+  // import useUser from '@/hooks/user';
   import Menu from '@/components/menu/index.vue';
-  import MessageBox from '../message-box/index.vue';
+  import { Message } from '@arco-design/web-vue';
+  // import MessageBox from '../message-box/index.vue';
 
   const appStore = useAppStore();
-  const userStore = useUserStore();
-  const { logout } = useUser();
-  const { changeLocale, currentLocale } = useLocale();
+  // const userStore = useUserStore();
+  // const { logout } = useUser();
+  // const { changeLocale, currentLocale } = useLocale();
   const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
-  const locales = [...LOCALE_OPTIONS];
-  const avatar = computed(() => {
-    return userStore.avatar;
-  });
-  const theme = computed(() => {
-    return appStore.theme;
-  });
+  // const locales = [...LOCALE_OPTIONS];
+  // const avatar = computed(() => {
+  //   return userStore.avatar;
+  // });
+  // const theme = computed(() => {
+  //   return appStore.theme;
+  // });
   const topMenu = computed(() => appStore.topMenu && appStore.menu);
-  const isDark = useDark({
-    selector: 'body',
-    attribute: 'arco-theme',
-    valueDark: 'dark',
-    valueLight: 'light',
-    storageKey: 'arco-theme',
-    onChanged(dark: boolean) {
-      // overridden default behavior
-      appStore.toggleTheme(dark);
-    },
-  });
-  const toggleTheme = useToggle(isDark);
-  const handleToggleTheme = () => {
-    toggleTheme();
-  };
-  const setVisible = () => {
-    appStore.updateSettings({ globalSettings: true });
-  };
-  const refBtn = ref();
-  const triggerBtn = ref();
-  const setPopoverVisible = () => {
-    const event = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    refBtn.value.dispatchEvent(event);
-  };
-  const handleLogout = () => {
-    logout();
-  };
-  const setDropDownVisible = () => {
-    const event = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    triggerBtn.value.dispatchEvent(event);
-  };
-  const switchRoles = async () => {
-    const res = await userStore.switchRoles();
-    Message.success(res as string);
-  };
+  // const isDark = useDark({
+  //   selector: 'body',
+  //   attribute: 'arco-theme',
+  //   valueDark: 'dark',
+  //   valueLight: 'light',
+  //   storageKey: 'arco-theme',
+  //   onChanged(dark: boolean) {
+  //     // overridden default behavior
+  //     appStore.toggleTheme(dark);
+  //   },
+  // });
+  // const toggleTheme = useToggle(isDark);
+  // const handleToggleTheme = () => {
+  //   toggleTheme();
+  // };
+  // const setVisible = () => {
+  //   appStore.updateSettings({ globalSettings: true });
+  // };
+  // const refBtn = ref();
+  // const triggerBtn = ref();
+  // const setPopoverVisible = () => {
+  //   const event = new MouseEvent('click', {
+  //     view: window,
+  //     bubbles: true,
+  //     cancelable: true,
+  //   });
+  //   refBtn.value.dispatchEvent(event);
+  // };
+  // const handleLogout = () => {
+  //   logout();
+  // };
+  // const setDropDownVisible = () => {
+  //   const event = new MouseEvent('click', {
+  //     view: window,
+  //     bubbles: true,
+  //     cancelable: true,
+  //   });
+  //   triggerBtn.value.dispatchEvent(event);
+  // };
+  // const switchRoles = async () => {
+  //   const res = await userStore.switchRoles();
+  //   Message.success(res as string);
+  // };
   const toggleDrawerMenu = inject('toggleDrawerMenu') as () => void;
+
+  const router = useRouter();
+
+  const logout = () => {
+    router.push('/login');
+    Message.success('登出成功');
+  };
 </script>
 
 <style scoped lang="less">
