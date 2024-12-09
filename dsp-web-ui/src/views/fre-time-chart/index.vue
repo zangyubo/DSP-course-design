@@ -1,3 +1,171 @@
 <template>
-  <div> hello fre-time-chart </div>
+  <div class="container">
+    <div style="height: 80vh; width: 100%">
+      <div
+        class="fre-time-chart-full-container"
+        :style="{ display: showChart ? 'flex' : 'none' }"
+      >
+        <div class="fre-time-chart-container" style="margin-bottom: 5px">
+          <vueChart :option="freOption" style="height: 100%; width: 100%" />
+        </div>
+        <div class="fre-time-chart-container">
+          <vueChart :option="timeOption" style="height: 100%; width: 100%" />
+        </div>
+      </div>
+      <div
+        class="fre-time-chart-full-container"
+        :style="{ display: showChart ? 'none' : 'flex' }"
+      >
+        <img
+          src="./dist/image.png"
+          alt="当前未生成语谱图"
+          style="height: 90%; width: 90%"
+        />
+      </div>
+      <div class="fre-time-chart-function-part">
+        <a-button
+          type="primary"
+          class="fre-time-chart-button"
+          @click="hideChart"
+        >
+          {{ showChartMessage }}
+        </a-button>
+
+        <a-button type="primary" class="fre-time-chart-button">
+          上传音频
+        </a-button>
+
+        <a-button type="primary" class="fre-time-chart-button">
+          分析信号
+        </a-button>
+        <audio style="height: 30px; width: 500px" controls></audio>
+      </div>
+    </div>
+  </div>
 </template>
+
+<script setup lang="ts">
+  import { ref } from 'vue';
+  import { exampleLable, freX, freY, timeX, timeY } from './data';
+
+  const showChart = ref(true);
+  const showChartMessage = ref('查看语谱图');
+
+  const hideChart = () => {
+    showChart.value = !showChart.value;
+    if (showChart.value) {
+      showChartMessage.value = '查看语谱图';
+    } else {
+      showChartMessage.value = '查看时频域图';
+    }
+  };
+
+  timeX.value = Array.from({ length: 100 }, (_, i) =>
+    ((i + 1) * 0.1).toFixed(3)
+  ) as never[];
+  timeY.value = timeX.value.map((x) => Math.sin(x).toFixed(3)) as never[];
+
+  const freOption = ref({
+    graphic: [exampleLable],
+    title: {
+      text: '频域图',
+      left: 'center',
+    },
+    tooltip: {
+      trigger: 'axis',
+      formatter: '{b}: {c}',
+    },
+    xAxis: {
+      type: 'category',
+      data: freX,
+      name: 'F(Hz)',
+    },
+    yAxis: {
+      type: 'value',
+      name: 'Amplitude',
+      axisLabel: {
+        formatter: '{value}',
+      },
+    },
+    series: [
+      {
+        name: 'Amplitude Spectrum',
+        type: 'bar',
+        data: freY,
+        barWidth: 1,
+        itemStyle: {
+          color: '#00f',
+        },
+      },
+    ],
+  });
+  const timeOption = ref({
+    graphic: [exampleLable],
+    title: {
+      text: '频域图',
+      left: 'center',
+    },
+    tooltip: {
+      trigger: 'axis',
+      formatter: '{b}: {c}',
+    },
+    xAxis: {
+      type: 'category',
+      data: timeX,
+      name: 'F(Hz)',
+    },
+    yAxis: {
+      type: 'value',
+      name: 'Amplitude',
+      axisLabel: {
+        formatter: '{value}',
+      },
+    },
+    series: [
+      {
+        name: 'Amplitude Spectrum',
+        type: 'line',
+        data: timeY,
+        smooth: true,
+        itemStyle: {
+          color: '#00f',
+        },
+        symbol: 'none',
+      },
+    ],
+  });
+</script>
+
+<style scoped lang="less">
+  .container {
+    background-color: var(--color-fill-2);
+    padding: 10px 20px;
+    padding-bottom: 0;
+    display: flex;
+  }
+  .fre-time-chart-function-part {
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 5px;
+  }
+  .fre-time-chart-button {
+    height: 30px;
+    width: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .fre-time-chart-full-container {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .fre-time-chart-container {
+    height: 50%;
+    width: 90%;
+    background-color: white;
+  }
+</style>
