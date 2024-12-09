@@ -1,4 +1,4 @@
-<script lang="tsx">
+<!-- <script lang="tsx">
   import { defineComponent, ref, h, compile, computed } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRoute, useRouter, RouteRecordRaw } from 'vue-router';
@@ -157,4 +157,43 @@
       }
     }
   }
-</style>
+</style> -->
+<template>
+  <div class="menu-demo">
+    <a-menu mode="horizontal" :default-selected-keys="['1']">
+      <a-menu-item key="1" @click="goHome">主页</a-menu-item>
+      <a-menu-item key="2" @click="goFreAndTime">频域时域</a-menu-item>
+      <a-menu-item key="3" @click="goAddNoise">添加噪声</a-menu-item>
+      <a-menu-item key="4" @click="goFilter">滤波</a-menu-item>
+      <a-menu-item key="5" @click="goCompare">信号对比</a-menu-item>
+    </a-menu>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  const goHome = () => {
+    router.push('/layout/home');
+  };
+
+  const goFreAndTime = () => {
+    router.push('/layout/freAndTime');
+  };
+
+  const goAddNoise = () => {
+    router.push('/layout/addNoise');
+  };
+
+  const goFilter = () => {
+    router.push('/layout/filter');
+  };
+
+  const goCompare = () => {
+    router.push('/layout/compare');
+  };
+</script>
+
+<style scoped></style>
