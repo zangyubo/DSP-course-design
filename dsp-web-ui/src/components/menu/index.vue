@@ -160,7 +160,7 @@
 </style> -->
 <template>
   <div class="menu-demo">
-    <a-menu mode="horizontal" :default-selected-keys="['1']">
+    <a-menu mode="horizontal" :default-selected-keys="[selectedKey]">
       <a-menu-item key="1" @click="goHome">主页</a-menu-item>
       <a-menu-item key="2" @click="goFreAndTime">频域时域</a-menu-item>
       <a-menu-item key="3" @click="goAddNoise">添加噪声</a-menu-item>
@@ -171,9 +171,28 @@
 </template>
 
 <script setup lang="ts">
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
+  import { computed } from 'vue';
 
   const router = useRouter();
+  const route = useRoute();
+
+  const selectedKey = computed(() => {
+    switch (route.path) {
+      case '/layout/home':
+        return '1';
+      case '/layout/freAndTime':
+        return '2';
+      case '/layout/addNoise':
+        return '3';
+      case '/layout/filter':
+        return '4';
+      case '/layout/compare':
+        return '5';
+      default:
+        return '';
+    }
+  });
 
   const goHome = () => {
     router.push('/layout/home');
