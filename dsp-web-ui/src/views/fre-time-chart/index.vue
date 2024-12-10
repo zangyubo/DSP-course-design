@@ -26,19 +26,36 @@
         <a-button
           type="primary"
           class="fre-time-chart-button"
+          @click="triggerFileInput"
+        >
+          上传音频
+        </a-button>
+        <input
+          id="audio"
+          ref="fileInput"
+          type="file"
+          accept="audio/*"
+          style="display: none"
+          @change="handleAudioUpload"
+        />
+
+        <a-button
+          type="primary"
+          class="fre-time-chart-button"
+          @click="getFreAndTimeChart"
+        >
+          分析信号
+        </a-button>
+
+        <audio style="height: 30px; width: 500px" controls :src="audio"></audio>
+
+        <a-button
+          type="primary"
+          class="fre-time-chart-button"
           @click="hideChart"
         >
           {{ showChartMessage }}
         </a-button>
-
-        <a-button type="primary" class="fre-time-chart-button">
-          上传音频
-        </a-button>
-
-        <a-button type="primary" class="fre-time-chart-button">
-          分析信号
-        </a-button>
-        <audio style="height: 30px; width: 500px" controls></audio>
       </div>
     </div>
   </div>
@@ -46,7 +63,25 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { exampleLable, freX, freY, timeX, timeY } from './data';
+  import exampleLable from '@/components/chart-example-label/example-label';
+  import { freX, freY, timeX, timeY } from './data';
+
+  const exampleLableUse = exampleLable;
+
+  const audio = ref<string | undefined>(undefined);
+  const fileInput = ref<HTMLInputElement | null>(null);
+
+  const handleAudioUpload = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (file) {
+      audio.value = URL.createObjectURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInput.value?.click();
+  };
 
   const showChart = ref(true);
   const showChartMessage = ref('查看语谱图');
@@ -66,7 +101,7 @@
   timeY.value = timeX.value.map((x) => Math.sin(x).toFixed(3)) as never[];
 
   const freOption = ref({
-    graphic: [exampleLable],
+    graphic: exampleLableUse,
     title: {
       text: '频域图',
       left: 'center',
@@ -100,7 +135,7 @@
     ],
   });
   const timeOption = ref({
-    graphic: [exampleLable],
+    graphic: exampleLableUse,
     title: {
       text: '频域图',
       left: 'center',
@@ -134,6 +169,45 @@
       },
     ],
   });
+
+  const getFreAndTimeChart = async () => {
+    freOption.value = {
+      graphic: [],
+      title: {
+        text: '频域图',
+        left: 'center',
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: '{b}: {c}',
+      },
+      xAxis: {
+        type: 'category',
+        data: freX,
+        name: 'F(Hz)',
+      },
+      yAxis: {
+        type: 'value',
+        name: 'Amplitude',
+        axisLabel: {
+          formatter: '{value}',
+        },
+      },
+      series: [
+        {
+          name: 'Amplitude Spectrum',
+          type: 'bar',
+          data: freY,
+          barWidth: 1,
+          itemStyle: {
+            color: '#00f',
+          },
+        },
+      ],
+    };
+
+    freOption.value.xAxis.data[0] += 10;
+  };
 </script>
 
 <style scoped lang="less">
